@@ -1,0 +1,18 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      Favorites
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <div *ngIf="!dataLocalService.articles.length" class="no-favorite">
+    No favorites
+  </div>
+  <app-articles
+    *ngIf="dataLocalService.articles.length"
+    [articles]="dataLocalService.articles"
+    [isFavorite]="true"
+  ></app-articles>
+</ion-content>

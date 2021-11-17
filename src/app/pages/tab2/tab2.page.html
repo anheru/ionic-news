@@ -1,0 +1,38 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>
+      Headers
+    </ion-title>
+  </ion-toolbar>
+
+  <ion-segment
+    scrollable
+    mode="md"
+    (ionChange)="segmentChanged($event)"
+  >
+    <ion-segment-button
+      *ngFor="let item of sections$ | async"
+      mode="md"
+      [value]="item"
+    >
+      <ion-label text-capitalize>{{item.display_name}}</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <app-articles
+    [articles]="articles"
+  ></app-articles>
+
+  <ion-infinite-scroll
+    threshold="150px"
+    (ionInfinite)="fetchArticles($event)"
+  >
+    <ion-infinite-scroll-content
+      loadingSpinner="bubbles"
+      loadingText="Loading more data..."
+    >
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+</ion-content>
