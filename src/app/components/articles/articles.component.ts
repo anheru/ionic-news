@@ -1,4 +1,5 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
+
 import { Article } from '../../interfaces/interfaces';
 
 @Component({
@@ -6,12 +7,7 @@ import { Article } from '../../interfaces/interfaces';
   templateUrl: './articles.component.html',
   styleUrls: ['./articles.component.scss'],
 })
-export class ArticlesComponent implements OnInit {
+export class ArticlesComponent {
   @Input() articles: Article[];
   @Input() isFavorite: boolean;
-
-  constructor() { }
-
-  ngOnInit() {}
-
 }

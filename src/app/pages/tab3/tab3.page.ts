@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+
 import { DataLocalService } from '../../services/data-local.service';
 import { Article } from '../../interfaces/interfaces';
 

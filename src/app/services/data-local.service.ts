@@ -22,6 +22,15 @@ export class DataLocalService {
     })
   }
 
+  async removeFavoriteArticle(article: Article) {
+    this.articles = this.articles.filter(a => a.title !== article.title)
+
+    Storage.set({
+      key: ARTICLE_STORAGE,
+      value: JSON.stringify(this.articles)
+    })
+  }
+
   async loadFavorieArticles() {
     const articleList = await Storage.get({ key: ARTICLE_STORAGE })
     this.articles = JSON.parse(articleList.value) || [];

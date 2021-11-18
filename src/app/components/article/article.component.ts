@@ -1,6 +1,6 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
-import { ActionSheetController } from '@ionic/angular';
+import { ActionSheetController, ToastController, ActionSheetButton } from '@ionic/angular';
 import { SocialSharing } from '@ionic-native/social-sharing/ngx';
 
 import { Article, Multimedia } from '../../interfaces/interfaces';
@@ -11,7 +11,7 @@ import { DataLocalService } from '../../services/data-local.service';
   templateUrl: './article.component.html',
   styleUrls: ['./article.component.scss'],
 })
-export class ArticleComponent implements OnInit {
+export class ArticleComponent {
   @Input() article: Article;
   @Input() index: number;
   @Input() isFavorite: boolean;
@@ -21,15 +21,44 @@ export class ArticleComponent implements OnInit {
     private actionSheetController: ActionSheetController,
     private socialSharing: SocialSharing,
     private dataLocalService: DataLocalService,
+    private toastController: ToastController,
   ) { }
-
-  ngOnInit() {}
 
   openArticle() {
     this.iab.create(this.article.url, '_system')
   }
 
   async showMenu() {
+    let toogleFavorite: ActionSheetButton = {
+      text: 'Favorite',
+      icon: 'star',
+      handler: async () => {
+        this.dataLocalService.addFavoriteArticle(this.article)
+        const toast = await this.toastController.create({
+          message: 'Added article to favorites.',
+          duration: 2000
+        })
+
+        toast.present()
+      }
+    }
+
+    if (this.isFavorite) {
+      toogleFavorite = {
+        text: 'Remove favorite',
+        icon: 'trash',
+        handler: async () => {
+          this.dataLocalService.removeFavoriteArticle(this.article)
+          const toast = await this.toastController.create({
+            message: 'Removed article from favorites.',
+            duration: 2000
+          })
+
+          toast.present()
+        }
+      }
+    }
+
     const actionSheet = await this.actionSheetController.create({
       buttons: [
         {
@@ -44,18 +73,11 @@ export class ArticleComponent implements OnInit {
             )
           }
         },
-        {
-          text: 'Favorite',
-          icon: 'star',
-          handler: () => {
-            this.dataLocalService.addFavoriteArticle(this.article)
-          }
-        },
+        toogleFavorite,
         {
           text: 'Cancel',
           icon: 'close',
           role: 'cancel',
-          handler: () => { }
         },
       ]
     })
@@ -64,7 +86,7 @@ export class ArticleComponent implements OnInit {
   }
 
   getImage(multimedia: Multimedia[]) {
-    const [photo] = multimedia.sort((a, b) => b.width - a.width)
+    const [photo] = [...multimedia].sort((a, b) => b.width - a.width)
     return photo.url
   }
 }

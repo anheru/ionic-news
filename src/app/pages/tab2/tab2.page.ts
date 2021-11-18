@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Article } from 'src/app/interfaces/interfaces';
-import { ApiService } from '../../services/api.service';
 import { map, tap } from 'rxjs/operators';
-import { Section } from '../../interfaces/interfaces';
+
+import { ApiService } from '../../services/api.service';
+import { Section, Article } from '../../interfaces/interfaces';
 
 @Component({
   selector: 'app-tab2',
@@ -49,7 +49,7 @@ export class Tab2Page implements OnInit {
       })
   }
 
-  segmentChanged(data: CustomEvent<{value: Section}>) {
+  segmentChanged(data) {
     this.selectedSection = data.detail.value
     this.articles = []
     this.fetchArticles()

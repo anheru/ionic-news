@@ -1,8 +1,9 @@
+import { IonicModule } from '@ionic/angular';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+
 import { ArticlesComponent } from './articles/articles.component'
 import { ArticleComponent } from './article/article.component'
-
 
 @NgModule({
   declarations: [
@@ -13,7 +14,8 @@ import { ArticleComponent } from './article/article.component'
     ArticlesComponent
   ],
   imports: [
-    CommonModule
+    IonicModule,
+    CommonModule,
   ]
 })
 export class ComponentsModule { }
